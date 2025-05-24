@@ -8,7 +8,7 @@ import MessageWrapper from './gmail/MessageWrapper';
 import { createQuery } from './gmail/query';
 import { Instance } from './gmailExport.d';
 import { getLogger } from './logging';
-import { DateRange, GMExportConfig } from 'types';
+import { DateRange, gmliftConfig } from 'types';
 import * as Dates from './util/dates';
 import * as Storage from './util/storage';
 
@@ -60,9 +60,9 @@ function foldHeaderLine(name: string, value: string): string {
     return result;
 }
 
-export const create = (gmExportConfig: GMExportConfig, api: GmailApiInstance, operator: DreadcabinetOperator): Instance => {
+export const create = (gmliftConfig: gmliftConfig, api: GmailApiInstance, operator: DreadcabinetOperator): Instance => {
     const logger = getLogger();
-    const filter = Filter.create(gmExportConfig);
+    const filter = Filter.create(gmliftConfig);
     const userId = 'me';
     const storage = Storage.create({});
 
@@ -104,7 +104,7 @@ export const create = (gmExportConfig: GMExportConfig, api: GmailApiInstance, op
                 messageId!,
                 wrappedMessage.date,
                 wrappedMessage.subject || 'No Subject',
-                gmExportConfig.timezone,
+                gmliftConfig.timezone,
             );
 
             // Skip if file already exists
@@ -121,18 +121,18 @@ export const create = (gmExportConfig: GMExportConfig, api: GmailApiInstance, op
                 return;
             }
 
-            const gmExportHeaders: string = [
-                foldHeaderLine('GmExport-Id', messageId!),
-                foldHeaderLine('GmExport-LabelIds', messageRaw.labelIds?.join(',') || ''),
-                foldHeaderLine('GmExport-ThreadId', messageRaw.threadId || ''),
-                foldHeaderLine('GmExport-Snippet', messageRaw.snippet || ''),
-                foldHeaderLine('GmExport-SizeEstimate', String(messageRaw.sizeEstimate || '')),
-                foldHeaderLine('GmExport-HistoryId', String(messageRaw.historyId || '')),
-                foldHeaderLine('GmExport-InternalDate', String(messageRaw.internalDate || ''))
+            const gmliftHeaders: string = [
+                foldHeaderLine('gmlift-Id', messageId!),
+                foldHeaderLine('gmlift-LabelIds', messageRaw.labelIds?.join(',') || ''),
+                foldHeaderLine('gmlift-ThreadId', messageRaw.threadId || ''),
+                foldHeaderLine('gmlift-Snippet', messageRaw.snippet || ''),
+                foldHeaderLine('gmlift-SizeEstimate', String(messageRaw.sizeEstimate || '')),
+                foldHeaderLine('gmlift-HistoryId', String(messageRaw.historyId || '')),
+                foldHeaderLine('gmlift-InternalDate', String(messageRaw.internalDate || ''))
             ].join('\n');
 
             const rowMessage = Buffer.from(messageRaw.raw!, 'base64').toString('utf-8');
-            await storage.writeFile(filePath, gmExportHeaders + '\n' + rowMessage, DEFAULT_CHARACTER_ENCODING);
+            await storage.writeFile(filePath, gmliftHeaders + '\n' + rowMessage, DEFAULT_CHARACTER_ENCODING);
             logger.info('Exported email: %s', filePath);
             processedCount++;
         } catch (error) {
@@ -143,7 +143,7 @@ export const create = (gmExportConfig: GMExportConfig, api: GmailApiInstance, op
 
     async function exportEmails(dateRange: DateRange): Promise<void> {
         try {
-            const query = createQuery(dateRange, gmExportConfig, gmExportConfig.timezone);
+            const query = createQuery(dateRange, gmliftConfig, gmliftConfig.timezone);
             await api.listMessages({ userId, q: query }, async (messageBatch) => {
                 logger.info('Processing %d messages', messageBatch.length);
                 // Process all messages in the batch concurrently
@@ -152,7 +152,7 @@ export const create = (gmExportConfig: GMExportConfig, api: GmailApiInstance, op
 
             printExportSummary();
 
-            if (gmExportConfig.dryRun) {
+            if (gmliftConfig.dryRun) {
                 logger.info('This was a dry run. No files were actually saved.');
             }
         } catch (error: any) {
@@ -168,7 +168,7 @@ export const create = (gmExportConfig: GMExportConfig, api: GmailApiInstance, op
         logger.info(`\tSkipped (already exists): ${skippedCount}`);
         logger.info(`\tFiltered out: ${filteredCount}`);
         logger.info(`\tErrors: ${errorCount}`);
-        logger.info(`\tDry run mode: ${gmExportConfig.dryRun ? 'Yes' : 'No'}`);
+        logger.info(`\tDry run mode: ${gmliftConfig.dryRun ? 'Yes' : 'No'}`);
     }
 
     return {

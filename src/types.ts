@@ -32,7 +32,7 @@ export const MessageFilterSchema = z.object({
     subject: z.array(z.string()).optional(),
 });
 
-export const GMExportConfigSchema = z.object({
+export const gmliftConfigSchema = z.object({
     dryRun: z.boolean(),
     verbose: z.boolean(),
     config: z.string(),
@@ -51,7 +51,7 @@ export const JobConfigSchema = z.object({
     end: z.string(),
 });
 
-export type GMExportConfig = z.infer<typeof GMExportConfigSchema> & Dreadcabinet.Config & Cardigantime.Config;
+export type gmliftConfig = z.infer<typeof gmliftConfigSchema> & Dreadcabinet.Config & Cardigantime.Config;
 export type JobConfig = z.infer<typeof JobConfigSchema>;
 
 // Add this interface for label mapping

@@ -1,7 +1,7 @@
 import MessageWrapper from './gmail/MessageWrapper';
-import { GMExportConfig } from 'types';
+import { gmliftConfig } from 'types';
 
-export const create = (config: GMExportConfig) => {
+export const create = (config: gmliftConfig) => {
 
     function checkInclusiveFilters(message: MessageWrapper): { skip: boolean; reason?: string } | null {
 

@@ -5,9 +5,9 @@ import * as readline from 'readline';
 import { getLogger } from '../logging';
 import * as Storage from '../util/storage';
 import { Instance } from './auth.d';
-import { GMExportConfig } from 'types';
+import { gmliftConfig } from 'types';
 
-export const create = async (config: GMExportConfig): Promise<Instance> => {
+export const create = async (config: gmliftConfig): Promise<Instance> => {
     const logger = getLogger();
     const storage = Storage.create({});
 
