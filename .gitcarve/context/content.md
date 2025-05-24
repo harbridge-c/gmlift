@@ -1,0 +1,1 @@
+GMLift is a tool that exports your GMail to a local folder structure.

@@ -1,0 +1,12 @@
+.env
+.vscode
+*.log
+coverage/
+credentials.json
+dist
+export/
+exports/
+node_modules
+out
+test
+token.json
