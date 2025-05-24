@@ -33,7 +33,7 @@
     "dependencies": {
         "@theunwalked/dreadcabinet": "^0.0.1",
         "@theunwalked/cardigantime": "^0.0.1",
-        "commander": "^13.1.0",
+        "commander": "^14.0.0",
         "dayjs": "^1.11.13",
         "dotenv": "^16.5.0",
         "gaxios": "^6.7.1",
