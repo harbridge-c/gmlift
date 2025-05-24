@@ -1,4 +1,4 @@
 #!/usr/bin/env node
-import { main } from './gmexport';
+import { main } from './gmlift';
 
 main();

@@ -1,8 +1,8 @@
 import { Dreadcabinet } from "@theunwalked/dreadcabinet";
 import * as Cardigantime from '@theunwalked/cardigantime';
 import { Command } from "commander";
-import { Args, CombinedArgs, DateRange, GMExportConfig, JobArgs, JobConfig } from "types";
-import { ALLOWED_SCOPES, DEFAULT_CURRENT_MONTH, DEFAULT_DRY_RUN, DEFAULT_VERBOSE, GMEXPORT_DEFAULTS, PROGRAM_NAME, VERSION } from "./constants";
+import { Args, CombinedArgs, DateRange, gmliftConfig, JobArgs, JobConfig } from "types";
+import { ALLOWED_SCOPES, DEFAULT_CURRENT_MONTH, DEFAULT_DRY_RUN, DEFAULT_VERBOSE, gmlift_DEFAULTS, PROGRAM_NAME, VERSION } from "./constants";
 import { getLogger } from "./logging";
 import * as Storage from './util/storage';
 import * as Dates from './util/dates';
@@ -13,7 +13,7 @@ function clean(obj: any) {
     );
 }
 
-export const configure = async (dreadcabinet: Dreadcabinet, cardigantime: Cardigantime.Cardigantime<any>): Promise<[GMExportConfig, DateRange]> => {
+export const configure = async (dreadcabinet: Dreadcabinet, cardigantime: Cardigantime.Cardigantime<any>): Promise<[gmliftConfig, DateRange]> => {
     const logger = getLogger();
     let program = new Command();
 
@@ -66,13 +66,13 @@ export const configure = async (dreadcabinet: Dreadcabinet, cardigantime: Cardig
     // Read the Raw values from the Dreadcabinet Command Line Arguments
     const dreadcabinetValues = await dreadcabinet.read(cliCombinedArgs);
 
-    let gmexportConfig: GMExportConfig = {
-        ...GMEXPORT_DEFAULTS,
+    let gmliftConfig: gmliftConfig = {
+        ...gmlift_DEFAULTS,
         ...fileValues,   // Apply file values (overwrites defaults), ensure object
         ...dreadcabinetValues,              // Apply all CLI args last (highest precedence for all keys, including Dreadcabinet's)
         ...clean(cliArgs),
-    } as GMExportConfig;
-    await validateGMExportConfig(gmexportConfig);
+    } as gmliftConfig;
+    await validategmliftConfig(gmliftConfig);
 
     const jobConfig: JobConfig = {
         ...clean(cliJobArgs),
@@ -80,28 +80,28 @@ export const configure = async (dreadcabinet: Dreadcabinet, cardigantime: Cardig
     await validateJobConfig(jobConfig);
 
 
-    gmexportConfig = dreadcabinet.applyDefaults(gmexportConfig) as GMExportConfig;
+    gmliftConfig = dreadcabinet.applyDefaults(gmliftConfig) as gmliftConfig;
 
     const dateRange = createDateRange({
-        timezone: gmexportConfig.timezone!,
+        timezone: gmliftConfig.timezone!,
         currentMonth: jobConfig.currentMonth ?? false,
         start: jobConfig.start ? new Date(jobConfig.start) : undefined,
         end: jobConfig.end ? new Date(jobConfig.end) : undefined,
     });
 
-    return [gmexportConfig, dateRange];
+    return [gmliftConfig, dateRange];
 }
 
-export const validateGMExportConfig = async (gmexportConfig: GMExportConfig) => {
+export const validategmliftConfig = async (gmliftConfig: gmliftConfig) => {
 
 
-    await validateConfigDirectory(gmexportConfig.config);
+    await validateConfigDirectory(gmliftConfig.config);
 
-    await validateCredentialsFile(gmexportConfig.credentialsFile);
+    await validateCredentialsFile(gmliftConfig.credentialsFile);
 
-    await validateTokenFile(gmexportConfig.tokenFile);
+    await validateTokenFile(gmliftConfig.tokenFile);
 
-    await validateApiScopes(gmexportConfig.apiScopes);
+    await validateApiScopes(gmliftConfig.apiScopes);
 
 }
 

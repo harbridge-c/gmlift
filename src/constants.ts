@@ -1,8 +1,8 @@
 import { FilenameOption, FilesystemStructure } from "@theunwalked/dreadcabinet";
-import { GMExportConfig } from "types";
+import { gmliftConfig } from "types";
 
 export const VERSION = '__VERSION__ (__GIT_BRANCH__/__GIT_COMMIT__ __GIT_TAGS__ __GIT_COMMIT_DATE__) __SYSTEM_INFO__';
-export const PROGRAM_NAME = 'gmexport';
+export const PROGRAM_NAME = 'gmlift';
 export const DEFAULT_CHARACTER_ENCODING = 'utf-8';
 export const DEFAULT_BINARY_TO_TEXT_ENCODING = 'base64';
 export const DEFAULT_DESTINATION_DIR = './exports/gmail';
@@ -53,7 +53,7 @@ export const ALLOWED_OUTPUT_FILENAME_OPTIONS = ['date', 'time', 'subject'] as Fi
 
 export const DEFAULT_CONFIG_DIR = `./.${PROGRAM_NAME}`;
 
-export const GMEXPORT_DEFAULTS: GMExportConfig = {
+export const gmlift_DEFAULTS: gmliftConfig = {
     dryRun: DEFAULT_DRY_RUN,
     verbose: DEFAULT_VERBOSE,
     configDirectory: DEFAULT_CONFIG_DIR,

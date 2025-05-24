@@ -6,7 +6,7 @@ import { ALLOWED_OUTPUT_FILENAME_OPTIONS, ALLOWED_OUTPUT_STRUCTURES, DEFAULT_CON
 import { Instance as GmailExportInstance } from './gmailExport.d';
 import { getLogger, setLogLevel } from './logging';
 import { connect, ExitError, exportEmails } from './phases';
-import { DateRange, GMExportConfig, GMExportConfigSchema } from './types';
+import { DateRange, gmliftConfig, gmliftConfigSchema } from './types';
 import { z } from 'zod';
 
 export async function main() {
@@ -30,7 +30,7 @@ export async function main() {
     });
 
     const mergedShapeProperties = {
-        ...GMExportConfigSchema.partial().shape,
+        ...gmliftConfigSchema.partial().shape,
         ...Dreadcabinet.ConfigSchema.partial().shape
     };
 
@@ -44,19 +44,19 @@ export async function main() {
     });
 
 
-    const [gmexportConfig, dateRange]: [GMExportConfig, DateRange] = await Arguments.configure(dreadcabinet, cardigantime);
+    const [gmliftConfig, dateRange]: [gmliftConfig, DateRange] = await Arguments.configure(dreadcabinet, cardigantime);
 
 
     // Set log level based on verbose flag
-    if (gmexportConfig.verbose) {
+    if (gmliftConfig.verbose) {
         setLogLevel('debug');
     }
     const logger = getLogger();
 
     try {
-        const operator = await dreadcabinet.operate(gmexportConfig); // Create the operator
-        const gmail: GmailExportInstance = await connect(gmexportConfig, operator); // Pass operator to connect
-        await exportEmails(gmail, gmexportConfig, dateRange);
+        const operator = await dreadcabinet.operate(gmliftConfig); // Create the operator
+        const gmail: GmailExportInstance = await connect(gmliftConfig, operator); // Pass operator to connect
+        await exportEmails(gmail, gmliftConfig, dateRange);
 
     } catch (error: any) {
         if (error instanceof ExitError) {

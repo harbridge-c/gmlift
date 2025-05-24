@@ -5,7 +5,7 @@ import * as Auth from './gmail/auth';
 import * as GmailExport from './gmailExport';
 import { Instance as GmailExportInstance } from './gmailExport.d';
 import { getLogger } from './logging';
-import { DateRange, GMExportConfig } from './types';
+import { DateRange, gmliftConfig } from './types';
 
 export class ExitError extends Error {
     constructor(message: string) {
@@ -15,7 +15,7 @@ export class ExitError extends Error {
 }
 
 
-export async function exportEmails(gmail: GmailExportInstance, gmExportConfig: GMExportConfig, dateRange: DateRange) {
+export async function exportEmails(gmail: GmailExportInstance, gmliftConfig: gmliftConfig, dateRange: DateRange) {
     const logger = getLogger();
     try {
         await gmail.exportEmails(dateRange);
@@ -25,15 +25,15 @@ export async function exportEmails(gmail: GmailExportInstance, gmExportConfig: G
     }
 }
 
-export async function connect(gmExportConfig: GMExportConfig, operator: DreadcabinetOperator): Promise<GmailExportInstance> {
+export async function connect(gmliftConfig: gmliftConfig, operator: DreadcabinetOperator): Promise<GmailExportInstance> {
     const logger = getLogger();
     let gmail: GmailExportInstance;
 
     try {
-        const authInstance = await Auth.create(gmExportConfig);
+        const authInstance = await Auth.create(gmliftConfig);
         const auth = await authInstance.authorize();
         const api = GmailApi.create(auth);
-        gmail = GmailExport.create(gmExportConfig, api, operator);
+        gmail = GmailExport.create(gmliftConfig, api, operator);
     } catch (error: any) {
         logger.error('Error occurred during connection phase: %s %s', error.message, error.stack);
         throw new ExitError('Error occurred during connection phase');

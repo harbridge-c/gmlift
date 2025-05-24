@@ -33,7 +33,7 @@ import {
 
 describe('constants', () => {
     it('should have correct string values', () => {
-        expect(PROGRAM_NAME).toBe('gmexport');
+        expect(PROGRAM_NAME).toBe('gmlift');
         expect(DEFAULT_CHARACTER_ENCODING).toBe('utf-8');
         expect(DEFAULT_BINARY_TO_TEXT_ENCODING).toBe('base64');
         expect(DEFAULT_DESTINATION_DIR).toBe('./exports/gmail');
