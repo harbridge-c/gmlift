@@ -76,25 +76,25 @@ redirect_uri: "http://localhost:3000/oauth2callback"
 
 ## Email Format
 
-The exported emails follow the RFC2822 message format standard, with additional Gmail-specific information preserved in custom headers. These custom headers are prefixed with `GmExport-` to comply with RFC6648 (which deprecates the use of "X-" prefix for custom headers). The following Gmail-specific information is included:
+The exported emails follow the RFC2822 message format standard, with additional Gmail-specific information preserved in custom headers. These custom headers are prefixed with `gmlift-` to comply with RFC6648 (which deprecates the use of "X-" prefix for custom headers). The following Gmail-specific information is included:
 
-- `GmExport-Id`: Gmail's unique message identifier
-- `GmExport-LabelIds`: List of Gmail labels associated with the message
-- `GmExport-ThreadId`: Gmail's thread identifier
-- `GmExport-Snippet`: Gmail's message snippet (truncated preview of the message content)
-- `GmExport-SizeEstimate`: Estimated size of the message in bytes
-- `GmExport-HistoryId`: Gmail's history identifier for tracking changes
-- `GmExport-InternalDate`: Gmail's internal timestamp (Unix timestamp in milliseconds)
+- `gmlift-Id`: Gmail's unique message identifier
+- `gmlift-LabelIds`: List of Gmail labels associated with the message
+- `gmlift-ThreadId`: Gmail's thread identifier
+- `gmlift-Snippet`: Gmail's message snippet (truncated preview of the message content)
+- `gmlift-SizeEstimate`: Estimated size of the message in bytes
+- `gmlift-HistoryId`: Gmail's history identifier for tracking changes
+- `gmlift-InternalDate`: Gmail's internal timestamp (Unix timestamp in milliseconds)
 
 Example headers:
 ```txt
-GmExport-Id: 195d3c7f4a842ecd
-GmExport-LabelIds: Label_115,IMPORTANT,CATEGORY_FORUMS
-GmExport-ThreadId: 195d3c7f4a842ecd
-GmExport-Snippet: hi Orpheon Good auditions on the chant solos last night! Som...
-GmExport-SizeEstimate: 12855
-GmExport-HistoryId: 59343913
-GmExport-InternalDate: 1743014808000
+gmlift-Id: 195d3c7f4a842ecd
+gmlift-LabelIds: Label_115,IMPORTANT,CATEGORY_FORUMS
+gmlift-ThreadId: 195d3c7f4a842ecd
+gmlift-Snippet: hi Orpheon Good auditions on the chant solos last night! Som...
+gmlift-SizeEstimate: 12855
+gmlift-HistoryId: 59343913
+gmlift-InternalDate: 1743014808000
 ```
 
 The export preserves all original email headers (such as Delivered-To, Received, etc.) while adding these Gmail-specific headers to ensure no metadata is lost during the export process.
