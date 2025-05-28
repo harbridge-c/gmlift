@@ -87,6 +87,14 @@ export const create = (gmliftConfig: gmliftConfig, api: GmailApiInstance, operat
             return;
         }
 
+        // Ensure the message contains a From header before continuing
+        const hasFrom = messageMetadata.payload?.headers?.some(h => h.name === 'From');
+        if (!hasFrom) {
+            logger.warn('Skipping message %s due to missing From header', messageId);
+            errorCount++;
+            return;
+        }
+
         try {
             // Wrap the message metadata in a wrapper class to reduce the amount of code needed to access the message metadata
             const wrappedMessage = new MessageWrapper(messageMetadata);

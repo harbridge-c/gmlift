@@ -21,9 +21,6 @@ export default class MessageWrapper {
             throw new Error('Message is missing Date header');
         }
         const from = this.findHeader(headers, 'From');
-        if (!from) {
-            throw new Error('Message is missing From header');
-        }
         const messageId = this.findHeader(headers, 'Message-ID');
         const to = this.findHeader(headers, 'To');
         const subject = this.findHeader(headers, 'Subject');
@@ -52,7 +49,7 @@ export default class MessageWrapper {
         return header?.value || undefined;
     }
     // Getters for headers
-    get from(): string { return this.headers.from; }
+    get from(): string | undefined { return this.headers.from; }
     get to(): string | undefined { return this.headers.to; }
     get subject(): string | undefined { return this.headers.subject; }
     get date(): string { return this.headers.date!; }

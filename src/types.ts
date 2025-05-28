@@ -63,7 +63,7 @@ export interface GmailLabel {
 
 // Type for the headers we care about
 export interface MessageHeaders {
-    from: string;
+    from?: string;
     to?: string;
     subject?: string;
     date: string;
