@@ -2,6 +2,7 @@ import { gmail_v1 } from 'googleapis';
 import * as path from 'path';
 import * as Dates from '../util/dates';
 import * as Storage from '../util/storage';
+import { sanitizeFilename as utilSanitizeFilename } from '../util/filenames';
 import {
     DEFAULT_BINARY_TO_TEXT_ENCODING,
     DATE_FORMAT_DAY,
@@ -12,9 +13,10 @@ import {
     DEFAULT_CHARACTER_ENCODING,
 } from '../constants';
 import { Instance as GmailApiInstance } from './api.d';
+
+// Re-export sanitizeFilename for backwards compatibility with tests
 export function sanitizeFilename(filename: string): string {
-    // Replace characters that are invalid in filenames
-    return filename.replace(/[<>:"/\\|?*]/g, '-');
+    return utilSanitizeFilename(filename);
 }
 
 export function getAttachmentFilePath(baseDir: string, date: Date, subject: string, attachmentName: string, timezone: string): string {

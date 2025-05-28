@@ -11,6 +11,7 @@ import { getLogger } from './logging';
 import { DateRange, gmliftConfig } from 'types';
 import * as Dates from './util/dates';
 import * as Storage from './util/storage';
+import { safeSubject } from './util/filenames';
 
 
 async function getEmailFilePath(
@@ -26,7 +27,8 @@ async function getEmailFilePath(
     const date = dates.date(dateHeader);
 
     const dirPath = await operator.constructOutputDirectory(date);
-    const baseFilename = await operator.constructFilename(date, 'email', messageId, { subject });
+    const sanitizedSubject = safeSubject(subject);
+    const baseFilename = await operator.constructFilename(date, 'email', messageId, { subject: sanitizedSubject });
 
     await storage.createDirectory(dirPath);
 
