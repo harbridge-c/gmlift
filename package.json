@@ -1,6 +1,6 @@
 {
     "name": "@vortiq/gmlift",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Export GMail",
     "main": "dist/main.js",
     "type": "module",
