@@ -11,6 +11,7 @@ import { getLogger } from './logging';
 import { DateRange, gmliftConfig } from 'types';
 import * as Dates from './util/dates';
 import * as Storage from './util/storage';
+import { safeSubject } from './util/filenames';
 
 
 async function getEmailFilePath(
@@ -26,7 +27,8 @@ async function getEmailFilePath(
     const date = dates.date(dateHeader);
 
     const dirPath = await operator.constructOutputDirectory(date);
-    const baseFilename = await operator.constructFilename(date, 'email', messageId, { subject });
+    const sanitizedSubject = safeSubject(subject);
+    const baseFilename = await operator.constructFilename(date, 'email', messageId, { subject: sanitizedSubject });
 
     await storage.createDirectory(dirPath);
 
@@ -83,6 +85,14 @@ export const create = (gmliftConfig: gmliftConfig, api: GmailApiInstance, operat
 
         if (!messageMetadata) {
             logger.error('Skipping message with no metadata: %s', messageId);
+            errorCount++;
+            return;
+        }
+
+        // Ensure the message contains a From header before continuing
+        const hasFrom = messageMetadata.payload?.headers?.some(h => h.name === 'From');
+        if (!hasFrom) {
+            logger.warn('Skipping message %s due to missing From header', messageId);
             errorCount++;
             return;
         }

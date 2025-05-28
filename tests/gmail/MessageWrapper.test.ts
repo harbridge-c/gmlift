@@ -42,12 +42,13 @@ describe('MessageWrapper', () => {
             expect(() => new MessageWrapper(invalidMessage)).toThrow('Message is missing Date header');
         });
 
-        it('should throw error when From header is missing', () => {
+        it('should not throw error when From header is missing', () => {
             const invalidHeaders = mockHeaders.filter(h => h.name !== 'From');
             const invalidMessage: gmail_v1.Schema$Message = {
                 payload: { headers: invalidHeaders }
             };
-            expect(() => new MessageWrapper(invalidMessage)).toThrow('Message is missing From header');
+            const wrapper = new MessageWrapper(invalidMessage);
+            expect(wrapper.from).toBeUndefined();
         });
     });
 
