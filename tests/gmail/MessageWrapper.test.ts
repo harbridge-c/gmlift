@@ -34,7 +34,17 @@ describe('MessageWrapper', () => {
             expect(() => new MessageWrapper(invalidMessage)).toThrow('Message is missing headers');
         });
 
-        it('should throw error when Date header is missing', () => {
+        it('should fallback to internalDate when Date header is missing', () => {
+            const invalidHeaders = mockHeaders.filter(h => h.name !== 'Date');
+            const invalidMessage: gmail_v1.Schema$Message = {
+                payload: { headers: invalidHeaders },
+                internalDate: '1710801600000'
+            };
+            const wrapper = new MessageWrapper(invalidMessage);
+            expect(wrapper.date).toBe(new Date(1710801600000).toUTCString());
+        });
+
+        it('should throw error when Date header and internalDate are missing', () => {
             const invalidHeaders = mockHeaders.filter(h => h.name !== 'Date');
             const invalidMessage: gmail_v1.Schema$Message = {
                 payload: { headers: invalidHeaders }
