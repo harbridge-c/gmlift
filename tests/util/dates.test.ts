@@ -113,8 +113,6 @@ describe('dates utility', () => {
         it('gets start of month correctly', () => {
             const result = dates.startOfMonth(TEST_DATE);
             // Don't test exact day/hour values which can be affected by timezone
-            console.log("FUCK: " + result.toISOString());
-            console.log("FUCK: " + TEST_DATE.toISOString());
 
             expect(dates.format(result, 'MM')).toBe(dates.format(TEST_DATE, 'MM'));
             expect(dates.format(result, 'YYYY')).toBe(dates.format(TEST_DATE, 'YYYY'));
