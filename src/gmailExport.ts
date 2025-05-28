@@ -72,6 +72,17 @@ export const create = (gmliftConfig: gmliftConfig, api: GmailApiInstance, operat
     let skippedCount = 0;
     let filteredCount = 0;
     let errorCount = 0;
+    let labelMap: Record<string, string> = {};
+
+    async function loadLabelMap(): Promise<void> {
+        const labels = await api.listLabels({ userId });
+        labelMap = {};
+        for (const label of labels) {
+            if (label.id && label.name) {
+                labelMap[label.id] = label.name;
+            }
+        }
+    }
 
     async function processMessage(message: gmail_v1.Schema$Message): Promise<void> {
         const messageId = message.id;
@@ -131,9 +142,12 @@ export const create = (gmliftConfig: gmliftConfig, api: GmailApiInstance, operat
                 return;
             }
 
+            const labelNames = messageRaw.labelIds?.map(id => labelMap[id] || id) || [];
+
             const gmliftHeaders: string = [
                 foldHeaderLine('gmlift-Id', messageId!),
                 foldHeaderLine('gmlift-LabelIds', messageRaw.labelIds?.join(',') || ''),
+                foldHeaderLine('gmlift-LabelNames', labelNames.join(',') || ''),
                 foldHeaderLine('gmlift-ThreadId', messageRaw.threadId || ''),
                 foldHeaderLine('gmlift-Snippet', messageRaw.snippet || ''),
                 foldHeaderLine('gmlift-SizeEstimate', String(messageRaw.sizeEstimate || '')),
@@ -153,6 +167,7 @@ export const create = (gmliftConfig: gmliftConfig, api: GmailApiInstance, operat
 
     async function exportEmails(dateRange: DateRange): Promise<void> {
         try {
+            await loadLabelMap();
             const query = createQuery(dateRange, gmliftConfig, gmliftConfig.timezone);
             await api.listMessages({ userId, q: query }, async (messageBatch) => {
                 logger.info('Processing %d messages', messageBatch.length);

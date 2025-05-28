@@ -80,6 +80,7 @@ The exported emails follow the RFC2822 message format standard, with additional 
 
 - `gmlift-Id`: Gmail's unique message identifier
 - `gmlift-LabelIds`: List of Gmail labels associated with the message
+- `gmlift-LabelNames`: Human-readable names for each label ID
 - `gmlift-ThreadId`: Gmail's thread identifier
 - `gmlift-Snippet`: Gmail's message snippet (truncated preview of the message content)
 - `gmlift-SizeEstimate`: Estimated size of the message in bytes
@@ -90,6 +91,7 @@ Example headers:
 ```txt
 gmlift-Id: 195d3c7f4a842ecd
 gmlift-LabelIds: Label_115,IMPORTANT,CATEGORY_FORUMS
+gmlift-LabelNames: Projects/2025,Important,Category Forums
 gmlift-ThreadId: 195d3c7f4a842ecd
 gmlift-Snippet: hi Orpheon Good auditions on the chant solos last night! Som...
 gmlift-SizeEstimate: 12855
