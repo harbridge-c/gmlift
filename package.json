@@ -31,7 +31,7 @@
     "author": "Colton Harbridge <harbridgecolton@hotmail.com>",
     "license": "Apache-2.0",
     "dependencies": {
-        "@theunwalked/cardigantime": "^0.0.1",
+        "@theunwalked/cardigantime": "^0.0.2",
         "@theunwalked/dreadcabinet": "^0.0.3",
         "commander": "^14.0.0",
         "dayjs": "^1.11.13",

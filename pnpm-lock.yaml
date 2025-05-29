@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@theunwalked/cardigantime':
-        specifier: ^0.0.1
-        version: 0.0.1
+        specifier: ^0.0.2
+        version: 0.0.2
       '@theunwalked/dreadcabinet':
         specifier: ^0.0.3
         version: 0.0.3
@@ -817,8 +817,8 @@ packages:
   '@swc/types@0.1.21':
     resolution: {integrity: sha512-2YEtj5HJVbKivud9N4bpPBAyZhj4S2Ipe5LkUG94alTpr7in/GU/EARgPAd3BwU+YOmFVJC2+kjqhGRi3r0ZpQ==}
 
-  '@theunwalked/cardigantime@0.0.1':
-    resolution: {integrity: sha512-JmgbwA2njpBzEEeRB5yHVS8wHwe7QeL2Ax/EdsXIdguJApNOMf737nEza492s0SbVnvNi0EsWWDNO90OQ8+K1g==}
+  '@theunwalked/cardigantime@0.0.2':
+    resolution: {integrity: sha512-qu9QHasFjOIKZCS/RGTsjZ+yxbPTQYrjXfcLbVEtuJMlhAIxK0+CDQ1Eeegjvx67Gkhaty37YAnFjuLkLPqXRQ==}
 
   '@theunwalked/dreadcabinet@0.0.3':
     resolution: {integrity: sha512-paO3vC1IoG/pWx0KSSgbhi4TKui/BCadxPgDt2jWbwYcWg6DADl+XZUonDSS1LGxPvUg1MYKIZllfgUk2WLxDw==}
@@ -3511,7 +3511,7 @@ snapshots:
     dependencies:
       '@swc/counter': 0.1.3
 
-  '@theunwalked/cardigantime@0.0.1':
+  '@theunwalked/cardigantime@0.0.2':
     dependencies:
       commander: 14.0.0
       dotenv: 16.5.0
