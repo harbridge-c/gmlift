@@ -32,7 +32,7 @@
     "license": "Apache-2.0",
     "dependencies": {
         "@theunwalked/cardigantime": "^0.0.1",
-        "@theunwalked/dreadcabinet": "^0.0.1",
+        "@theunwalked/dreadcabinet": "^0.0.3",
         "commander": "^14.0.0",
         "dayjs": "^1.11.13",
         "dotenv": "^16.5.0",
@@ -43,7 +43,7 @@
         "luxon": "^3.6.1",
         "moment-timezone": "^0.5.48",
         "winston": "^3.17.0",
-        "zod": "^3.25.32"
+        "zod": "^3.25.34"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3.3.1",
@@ -54,7 +54,7 @@
         "@types/jest": "^29.5.14",
         "@types/js-yaml": "^4.0.9",
         "@types/luxon": "^3.6.2",
-        "@types/node": "^22.15.23",
+        "@types/node": "^22.15.24",
         "@types/winston": "^2.4.4",
         "@typescript-eslint/eslint-plugin": "^8.33.0",
         "@typescript-eslint/parser": "^8.33.0",
@@ -64,7 +64,7 @@
         "jest": "^29.7.0",
         "mockdate": "^3.0.5",
         "rollup-plugin-preserve-shebang": "^1.0.1",
-        "rollup-plugin-visualizer": "^6.0.0",
+        "rollup-plugin-visualizer": "^6.0.1",
         "ts-jest": "^29.3.4",
         "typescript": "^5.8.3",
         "vite": "^6.3.5",
