@@ -16,9 +16,18 @@ export default class MessageWrapper {
         if (!headers) {
             throw new Error('Message is missing headers');
         }
-        const date = this.findHeader(headers, 'Date');
+        let date = this.findHeader(headers, 'Date');
         if (!date) {
-            throw new Error('Message is missing Date header');
+            // Fallback to internalDate if available
+            if (message.internalDate) {
+                const ts = Number(message.internalDate);
+                if (!isNaN(ts)) {
+                    date = new Date(ts).toUTCString();
+                }
+            }
+            if (!date) {
+                throw new Error('Message is missing Date header');
+            }
         }
         const from = this.findHeader(headers, 'From');
         const messageId = this.findHeader(headers, 'Message-ID');
